@@ -1,0 +1,22 @@
+registers: 2
+input: 1, 2, 3, 4, 5
+input: 5, 6, 7, 8, 9
+input: 0, 1, 2
+Label  "begin"
+IfInputEmpty
+Goto  "terminate"
+EndIf
+Move from INPUT to R0
+Move from R0 to R1
+Label  "start"
+Subtract  R1 - 1 into R1
+IfLess  R1 lessThan 2
+Goto  "end"
+EndIf
+Multiply  R0 * R1 into R0
+Goto  "start"
+Label  "end"
+Move from R0 to OUTPUT
+Goto  "begin"
+Label  "terminate"
+description: Write a program which outputs the factorial of each number in input, do not worry about integer overflow

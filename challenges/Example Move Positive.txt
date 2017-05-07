@@ -1,0 +1,14 @@
+registers: 5
+input: 1
+Label  "start"
+IfInputEmpty
+Goto  "end"
+EndIf
+Move from INPUT to R0
+IfLess  R0 less than 0
+Goto  "start"
+EndIf
+Move from R0 to OUTPUT
+Goto  "start"
+Label  "end"
+description: Move only the positive values from the input to the output

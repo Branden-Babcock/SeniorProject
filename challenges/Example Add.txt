@@ -1,0 +1,11 @@
+registers: 4
+input: 1, 2, 3, 4, 5, 6
+input: 5, 6, 7, 8, 9, 10
+Label  "start"
+IfInputEmpty
+Goto  "end"
+EndIf
+Add  INPUT + INPUT into OUTPUT
+Goto  "start"
+Label  "end"
+description: For each pair of numbers in the input, add them and move them to the output
