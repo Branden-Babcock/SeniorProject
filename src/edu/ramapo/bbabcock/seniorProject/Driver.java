@@ -37,8 +37,16 @@ public class Driver {
 		KFrame frame = new KFrame("Visual Coding Challenges - Senior Project", new Dimension(1200, 750), new BorderLayout());
 		Configuration.frame = frame;
 
+		// Compile a list of possible options
+		Vector<String> choices = new Vector<String>();
+		choices.add("Launch Challenge");
+		if(FileReader.getAllFiles("challenges", null).length != 0) choices.add("Edit Challenge");
+		if(FileReader.getAllFiles("instructions", null).length != 0) choices.add("Edit Instruction");
+
 		// Ask the user what they would like to do
-		String option = (String)JOptionPane.showInputDialog(frame, "What would you like to do", "Select Option", JOptionPane.QUESTION_MESSAGE, null, new String[]{"Launch Challenge", "Edit Challenge", "Edit Instruction"}, "");
+		String option = (String)JOptionPane.showInputDialog(frame, "What would you like to do", "Select Option", JOptionPane.QUESTION_MESSAGE, null, choices.toArray(new String[choices.size()]), "");
+
+		// Exit if the user cancelled
 		if(option == null) System.exit(0);
 
 		// Allow the user to chose which file to open
@@ -76,7 +84,7 @@ public class Driver {
 		Configuration.instructionPanel.addInstruction(new InstructionLabel());
 		Configuration.instructionPanel.addInstruction(new InstructionGoto());
 
-		// Create the input, output, and regsiters
+		// Create the input, output, and registers
 		Configuration.input = new DataQueue("Input");
 		Configuration.output = new DataQueue("Output");
 		Configuration.registers = new Vector<Register>();
@@ -115,11 +123,9 @@ public class Driver {
 
 			if(ins.equals(instruction)){
 				for(Code c : ic.getCode()){
-					System.err.println("Adding code");
 					Configuration.codePanel.addCode(c);
 				}
 			}else{
-				System.out.println("Instruction Valid (" + ins + "): " + instructionValid);
 				if(instructionValid) Configuration.instructionPanel.addInstruction(ic);
 			}
 		}
@@ -135,6 +141,7 @@ public class Driver {
 		executionPanel.add(Configuration.emulator.m_resetButton);
 		executionPanel.add(Configuration.emulator.m_saveInstructionButton);
 		executionPanel.add(Configuration.emulator.m_saveChallengeButton);
+		executionPanel.add(new ButtonLoadInstruction());
 
 		// Construct the layout
 		JPanel leftContainer = new JPanel();

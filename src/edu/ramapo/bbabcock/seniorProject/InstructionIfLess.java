@@ -19,8 +19,8 @@ public class InstructionIfLess extends InstructionIf {
 
 		// Add parameters for the two values that should be compared
 		return new Parameter[]{
-				new ParameterRegister("", false, false, Integer.MIN_VALUE, Integer.MAX_VALUE),
-				new ParameterRegister("lessThan", false, false, Integer.MIN_VALUE, Integer.MAX_VALUE)
+				new ParameterRegister("", true, false, Integer.MIN_VALUE, Integer.MAX_VALUE),
+				new ParameterRegister("lessThan", true, false, Integer.MIN_VALUE, Integer.MAX_VALUE)
 		};
 	}
 

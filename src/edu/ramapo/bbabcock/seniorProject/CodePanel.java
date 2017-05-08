@@ -145,9 +145,9 @@ public class CodePanel extends JPanel implements KeyListener{
 		// Find the index of the currently selected code
 		int index = m_code.indexOf(m_selected);
 
-		// If the key was up or down, adjust the mod accordingly, limiting it if the action cannot be performed
-		if(a_event.getKeyCode() == KeyEvent.VK_UP) mod = index == 0 ? 0 : -1;
-		else if(a_event.getKeyCode() == KeyEvent.VK_DOWN) mod = index == m_code.size()-1 ? 0 : 1;
+		// If the key was up or down, adjust the mod accordingly, wrapping the move around
+		if(a_event.getKeyCode() == KeyEvent.VK_UP) mod = index == 0 ? m_code.size()-1 : -1;
+		else if(a_event.getKeyCode() == KeyEvent.VK_DOWN) mod = index == m_code.size()-1 ? -(m_code.size()-1) : 1;
 
 		// If the delete key was pressed, remove the current code
 		else if(a_event.getKeyCode() == KeyEvent.VK_DELETE){
@@ -198,14 +198,32 @@ public class CodePanel extends JPanel implements KeyListener{
 	 */
 	public Instruction saveInstruction(){
 
+		if(Configuration.codePanel.getCode().size() == 0){
+			JOptionPane.showMessageDialog(Configuration.frame, "Write some code before you try to save it!", "Error", JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
+
 		// Let the user enter the name of the instruction
 		String fileName = JOptionPane.showInputDialog(Configuration.frame, "Enter Instruction Name", "Save Instruction", JOptionPane.QUESTION_MESSAGE);
 
 		// Exit if the user cancelled
 		if(fileName == null) return null;
 
-		// Remove all spaces from the entered filename
-		fileName = fileName.replaceAll(" ", "");
+		// Trim leading and trailing whitespace
+		fileName = fileName.trim();
+
+		// Remove all spaces from the entered filename and replace them with underscores
+		fileName = fileName.replaceAll(" ", "_");
+
+		// Return an error if no name was specified
+		if(fileName.isEmpty()){
+			JOptionPane.showMessageDialog(Configuration.frame, "You must specify a name for the instruction", "Error", JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
+
+		// Replace all / and \ with _
+		fileName = fileName.replaceAll("\\\\", "_");
+		fileName = fileName.replaceAll("/", "_");
 
 		// Try to find an existing instruction by the entered name
 		Instruction i = Configuration.instructionPanel.getInstruction(fileName);

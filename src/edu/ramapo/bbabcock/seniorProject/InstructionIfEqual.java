@@ -19,8 +19,8 @@ public class InstructionIfEqual extends InstructionIf {
 
 		// Add parameters for the two values which should be compared
 		return new Parameter[]{
-				new ParameterRegister("", false, false, Integer.MIN_VALUE, Integer.MAX_VALUE),
-				new ParameterRegister("and", false, false, Integer.MIN_VALUE, Integer.MAX_VALUE)
+				new ParameterRegister("", true, false, Integer.MIN_VALUE, Integer.MAX_VALUE),
+				new ParameterRegister("and", true, false, Integer.MIN_VALUE, Integer.MAX_VALUE)
 		};
 	}
 

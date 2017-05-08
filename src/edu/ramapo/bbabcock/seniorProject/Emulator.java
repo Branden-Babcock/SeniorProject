@@ -76,7 +76,12 @@ public class Emulator {
 		int previousInstruction = m_nextInstruction;
 
 		// Run the instruction
-		m_nextInstruction = getNextInstruction().execute(m_nextInstruction, Configuration.codePanel.getCode());
+		try{
+			m_nextInstruction = getNextInstruction().execute(m_nextInstruction, Configuration.codePanel.getCode());
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(Configuration.frame, "The next instruction could not be run", "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
 
 		// All the remaining code in the following section is visual, so return if we are not rendering
 		if(!a_visible) return true;
@@ -233,7 +238,6 @@ public class Emulator {
 			}else{
 				String[] parts = line.split(" ");
 				Configuration.codePanel.addCode(new Code(Configuration.instructionPanel.getInstruction(parts[0])));
-				for(Code c : Configuration.codePanel.getCode()) System.out.println(c.toString());
 				for(int i=2; i<parts.length; i+=2){
 					Configuration.codePanel.getCode().lastElement().getParameter(i/2-1).setValue(parts[i]);
 				}

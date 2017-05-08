@@ -63,7 +63,8 @@ public class ButtonSaveChallenge extends KButton {
 			}
 
 			try{
-				for(String i : input.split(", ")){
+				for(String i : input.split(",")){
+					i = i.trim();
 					Integer.parseInt(i);
 				}
 			}catch(Exception ex){
@@ -78,7 +79,14 @@ public class ButtonSaveChallenge extends KButton {
 		input = JOptionPane.showInputDialog("Enter a description for your challenge");
 
 		// Allow the user to select a name for their challenge
-		String file = "challenges/" + JOptionPane.showInputDialog("Enter Challenge Name") + ".txt";
+		String file = null;
+		while(file == null){
+			file = JOptionPane.showInputDialog("Enter Challenge Name");
+			if(file ==null || file.isEmpty()){
+				JOptionPane.showMessageDialog(Configuration.frame, "You must specify a challenge name", "Error", JOptionPane.ERROR_MESSAGE);
+				file = null;
+			}
+		}
 
 		// Attempt to save the challenge to the indicated file
 		try{
